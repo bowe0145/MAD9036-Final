@@ -8,37 +8,88 @@
 
 import Foundation
 
-struct TranslatedString {
-    let EN: String?
-    let FR: String?
+// Allows searching the dictionary by key
+extension Dictionary where Key == String {
+    func findByKey (Key: String) -> Any {
+        var value: Any = ""
+        for item in self {
+            if item.key == Key {
+                value = item.value as Any
+            }
+        }
+        return value
+    }
+}
+
+// Translated string allows for french and english
+struct TranslateableString {
+    var EN: String
+    var FR: String
+    
+    init (EN: String, FR: String) {
+        self.EN = EN
+        self.FR = FR
+    }
+    init (building: Dictionary<String, Any>) {
+        self.EN = building.findByKey(Key: "nameEN") as! String
+        self.FR = building.findByKey(Key: "nameFR") as! String
+    }
 }
 
 struct Location {
-    let Address: String?
-    let City: String?
-    let Province: String?
-    let PostalCode: String?
-    let Longitude: String?
-    let Latitude: String?
+    var Address: TranslateableString
+    var City: String
+    var Province: String
+    var PostalCode: String
+    var Longitude: Double
+    var Latitude: Double
+    
+    init(building: Dictionary<String, Any>) {
+        self.Address = TranslateableString(
+            EN: building.findByKey(Key: "addressEN") as! String,
+            FR: building.findByKey(Key: "addressFR") as! String
+        )
+        self.City = building.findByKey(Key: "city") as! String
+        self.Province = building.findByKey(Key: "province") as! String
+        self.PostalCode = building.findByKey(Key: "postalCode") as! String
+        self.Longitude = building.findByKey(Key: "longitude") as! Double
+        self.Latitude = building.findByKey(Key: "latitude") as! Double
+    }
 }
 
-struct ImageData {
-    let Image: String?
-    let Description: TranslatedString?
+struct BuildingImage {
+    let Image: String
+    let Description: TranslateableString
+    
+    init (building: Dictionary<String, Any>) {
+        self.Image = building.findByKey(Key: "image") as! String
+        self.Description = TranslateableString(
+            EN: building.findByKey(Key: "imageDescriptionEN") as! String,
+            FR: building.findByKey(Key: "imageDescriptionFR") as! String
+        )
+    }
 }
 
 struct BuildingCategory {
-    let ID: Int?
-    let Name: TranslatedString?
+    let ID: Int
+    let Name: TranslateableString
+    
+    init (building: Dictionary<String, Any>) {
+        self.ID = building.findByKey(Key: "buildingID") as! Int
+        self.Name = TranslateableString(
+            EN: building.findByKey(Key: "nameEN") as! String,
+            FR: building.findByKey(Key: "nameFR") as! String
+        )
+    }
 }
 
 class Building {
     var ID: String?
     var buildingID: Int?
-    var name: TranslatedString?
+    var name: TranslateableString?
     var category: BuildingCategory?
     var location: Location?
-    var image: ImageData?
+    var image: BuildingImage?
     var updatedAt: Date?
     var createdAt: Date?
     var sundayClose: String?
@@ -50,9 +101,14 @@ class Building {
     public init() {
         
     }
-    convenience init(building: [[String: Any]]) {
+    
+    // Convenience init for a single building
+    convenience init(building: Dictionary<String, Any>) {
         self.init()
-        
+        self.location = Location(building: building)
+        self.name = TranslateableString(building: building)
+        self.category = BuildingCategory(building: building)
+        self.image = BuildingImage(building: building)
     }
 }
 
