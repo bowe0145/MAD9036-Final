@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		946D5AFA1FDDA1B100757668 /* DoorsOpen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946D5AF91FDDA1B100757668 /* DoorsOpen.swift */; };
+		946D5AFC1FDDF36200757668 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946D5AFB1FDDF36200757668 /* Protocol.swift */; };
 		94EE228A1FDD97D800886676 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EE22891FDD97D800886676 /* AppDelegate.swift */; };
 		94EE228C1FDD97D800886676 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EE228B1FDD97D800886676 /* ViewController.swift */; };
 		94EE228F1FDD97D800886676 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94EE228D1FDD97D800886676 /* Main.storyboard */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		946D5AF91FDDA1B100757668 /* DoorsOpen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoorsOpen.swift; sourceTree = "<group>"; };
+		946D5AFB1FDDF36200757668 /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
 		94EE22861FDD97D800886676 /* MAD9036 Final.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MAD9036 Final.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94EE22891FDD97D800886676 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94EE228B1FDD97D800886676 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -66,6 +70,8 @@
 				94EE22951FDD97D800886676 /* Info.plist */,
 				94EE229B1FDD981C00886676 /* Building.swift */,
 				94EE229D1FDD9D3200886676 /* BuildingTableViewController.swift */,
+				946D5AF91FDDA1B100757668 /* DoorsOpen.swift */,
+				946D5AFB1FDDF36200757668 /* Protocol.swift */,
 			);
 			path = "MAD9036 Final";
 			sourceTree = "<group>";
@@ -143,9 +149,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				94EE228C1FDD97D800886676 /* ViewController.swift in Sources */,
+				946D5AFA1FDDA1B100757668 /* DoorsOpen.swift in Sources */,
 				94EE229C1FDD981C00886676 /* Building.swift in Sources */,
 				94EE228A1FDD97D800886676 /* AppDelegate.swift in Sources */,
 				94EE229E1FDD9D3200886676 /* BuildingTableViewController.swift in Sources */,
+				946D5AFC1FDDF36200757668 /* Protocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
