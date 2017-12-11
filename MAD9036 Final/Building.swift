@@ -10,7 +10,7 @@ import Foundation
 
 // Allows searching the dictionary by key
 extension Dictionary where Key == String {
-    func findByKey (Key: String) -> Any {
+    func findByKey (Key: String) -> Any? {
         var value: Any = ""
         for item in self {
             if item.key == Key {
@@ -75,7 +75,7 @@ struct BuildingCategory {
     let Name: TranslateableString
     
     init (building: Dictionary<String, Any>) {
-        self.ID = building.findByKey(Key: "buildingID") as! Int
+        self.ID = building.findByKey(Key: "buildingId") as! Int
         self.Name = TranslateableString(
             EN: building.findByKey(Key: "nameEN") as! String,
             FR: building.findByKey(Key: "nameFR") as! String
@@ -90,13 +90,6 @@ class Building {
     var category: BuildingCategory?
     var location: Location?
     var image: BuildingImage?
-    var updatedAt: Date?
-    var createdAt: Date?
-    var sundayClose: String?
-    var sundayStart: String?
-    var saturdayClose: String?
-    var saturdayStart: String?
-    var isNewBuilding: Bool?
     
     public init() {
         
@@ -109,6 +102,8 @@ class Building {
         self.name = TranslateableString(building: building)
         self.category = BuildingCategory(building: building)
         self.image = BuildingImage(building: building)
+        self.buildingID = building.findByKey(Key: "buildingId") as? Int
+        self.ID = building.findByKey(Key: "_id") as? String
     }
 }
 
