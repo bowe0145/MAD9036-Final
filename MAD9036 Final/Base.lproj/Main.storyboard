@@ -26,6 +26,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="9Io-Qt-FH9" kind="show" id="FDL-Ci-Fmd"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
