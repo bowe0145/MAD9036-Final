@@ -17,6 +17,8 @@ class DoorsOpen {
         loadBuildings()
     }
     
+    
+    
     func loadBuildings() {
         
         // Create the request object and pass in your url
@@ -34,33 +36,28 @@ class DoorsOpen {
                 return
             }
             
-            self.loadBuildingsCallback(data: data)
+            do {
+                if let buildings = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [[String:Any]] {
+                    for building in buildings {
+                        let tempBuilding: Building = Building(building: building)
+                        self.Buildings?.append(tempBuilding)
+                    }
+                }
+            } catch let jsonError {
+                // An error occurred while trying to convert the data into a Swift dictionary.
+                print("JSON error description: \(jsonError)")
+            }
+            
+            // This callback is run on a secondary thread, so you must make any UI changes on the main thread by calling the DispatchQueue.main.async() method
+            DispatchQueue.main.async() {
+                
+                guard let theBuildings = self.Buildings, self.Buildings?.count != nil else {
+                    return
+                }
+                self.delegate?.sendBuildings(buildings: theBuildings)
+            }
         }
         dataTask.resume()
-    }
-    
-    func loadBuildingsCallback (data: Data) {
-        do {
-            if let buildings = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [[String:Any]] {
-                for building in buildings {
-                    let tempBuilding: Building = Building(building: building)
-                    self.Buildings?.append(tempBuilding)
-                }
-            }
-        } catch let jsonError {
-            // An error occurred while trying to convert the data into a Swift dictionary.
-            print("JSON error description: \(jsonError)")
-        }
-        
-        // This callback is run on a secondary thread, so you must make any UI changes on the main thread by calling the DispatchQueue.main.async() method
-        DispatchQueue.main.async() {
-
-            guard let theBuildings = self.Buildings, self.Buildings?.count != nil else {
-                return
-            }
-            self.delegate?.sendBuildings(buildings: theBuildings)
-        }
-        
     }
     
 }
