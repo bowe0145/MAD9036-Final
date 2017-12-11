@@ -8,47 +8,48 @@
 
 import UIKit
 
-class BuildingTableViewController: UITableViewController {
-
+class BuildingTableViewController: UITableViewController, sendBuildings {
+    func sendBuildings(buildings: [Building]) {
+        self.Buildings = buildings
+        self.tableView.reloadData()
+    }
+    
+    var API: DoorsOpen?
+    var Buildings: [Building]? = []
+    var delegate: sendBuildings?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        API = DoorsOpen()
+        API?.delegate = self
     }
 
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        var rowNum: Int = 0
+        
+        if let buildingCount = Buildings?.count {
+            rowNum = buildingCount
+        }
+        
+        return rowNum
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "buildingCell", for: indexPath)
 
-        // Configure the cell...
-
+        // For the current tableCell row get the corresponding event's dictionary of info
+        let currentBuilding = Buildings![indexPath.row]
+        
+        // Get the name and overview for the current event
+        let title = currentBuilding.name?.EN
+        let date = currentBuilding.name?.FR
+        
+        // Add the name and overview to the cell's textLabel
+        cell.textLabel?.text = title! + ": " + date!
+        
         return cell
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
 
     /*
     // Override to support rearranging the table view.
