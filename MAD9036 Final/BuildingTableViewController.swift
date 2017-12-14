@@ -8,22 +8,53 @@
 
 import UIKit
 
-class BuildingTableViewController: UITableViewController, sendBuildings {
+class BuildingTableViewController: UITableViewController {
     func sendBuildings(buildings: [Building]) {
         self.Buildings = buildings
         self.tableView.reloadData()
     }
     
-    var API: DoorsOpen?
+    var API: DoorsOpen = DoorsOpen()
+    var openDoorsUrl: String = "https://doors-open-ottawa.mybluemix.net/"
     var Buildings: [Building]? = []
     var delegate: sendBuildings?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        API = DoorsOpen()
-        API?.delegate = self
+        API.prepareRequest(URLString: "buildings", extra: nil, completion: loadBuildings)
     }
 
+    func loadBuildings (buildings: Data, _:Any) -> Void {
+        let decoder = JSONDecoder()
+        do {
+            let tempBuildings = try decoder.decode([Building].self, from: buildings)
+            
+            self.Buildings = tempBuildings
+            
+            // Get the images
+            for building in tempBuildings {
+                API.prepareRequest( URLString: building.image, extra: building.id, completion: loadBuildingImage)
+            }
+            
+            tableView.reloadData()
+        }
+        catch {
+            print("Error loading buildings")
+        }
+    }
+    
+    func loadBuildingImage (image: Data, id: Any) -> Void {
+        guard Buildings != nil else {
+            print("nil")
+            return
+        }
+        for (index, value) in (Buildings?.enumerated())! {
+            if id as! String == value.id {
+                Buildings?[index].imageData = image
+            }
+        }
+        tableView.reloadData()
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var rowNum: Int = 0
@@ -42,12 +73,15 @@ class BuildingTableViewController: UITableViewController, sendBuildings {
         let currentBuilding = Buildings![indexPath.row]
         
         // Get the name and overview for the current event
-        let title = currentBuilding.name?.EN
-        let date = currentBuilding.name?.FR
+        let title = currentBuilding.nameEN
         
+        if let imageData: Data = currentBuilding.imageData {
+            cell.imageView?.image = UIImage(data: imageData)
+        }
+
         // Add the name and overview to the cell's textLabel
-        cell.textLabel?.text = title! + ": " + date!
-        
+        cell.textLabel?.text = title
+
         return cell
     }
 
