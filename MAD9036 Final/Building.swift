@@ -21,116 +21,84 @@ extension Dictionary where Key == String {
     }
 }
 
-// Translated string allows for french and english
-struct TranslateableString {
-    var EN: String
-    var FR: String
+struct Building: Codable
+{
+    let id: String
+    let buildingID: Int
+    let nameEN: String
+    let nameFR: String
+    let descriptionEN: String
+    let descriptionFR: String
+    let categoryEN: String
+    let categoryFR: String
+    let categoryID: Int
+    let longitude: Double
+    let latitude: Double
+    let postalCode: String
+    let province: String
+    let city: String
+    let addressEN: String
+    let addressFR: String
+    let image: String
+    var imageData: Data?
+    let imageDescriptionEN: String
+    let imageDescriptionFR: String
+    let sundayClose: String?
+    let sundayStart: String?
+    let saturdayClose: String?
+    let saturdayStart: String?
+    let isNewBuilding: Bool
+    let vIndex: Int?
+    let updatedAt: String?
+    let createdAt: String?
     
-    init (EN: String, FR: String) {
-        self.EN = EN
-        self.FR = FR
+    
+    private enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case buildingID = "buildingId"
+        case nameEN
+        case nameFR
+        case descriptionEN
+        case descriptionFR
+        case categoryEN
+        case categoryFR
+        case categoryID = "categoryId"
+        case longitude
+        case latitude
+        case postalCode
+        case province
+        case city
+        case addressEN
+        case addressFR
+        case image
+        case imageData
+        case imageDescriptionEN
+        case imageDescriptionFR
+        case sundayClose
+        case sundayStart
+        case saturdayClose
+        case saturdayStart
+        case isNewBuilding
+        case vIndex = "__v"
+        case updatedAt
+        case createdAt
     }
-    init (building: Dictionary<String, Any>) {
-        self.EN = building.findByKey(Key: "nameEN") as! String
-        self.FR = building.findByKey(Key: "nameFR") as! String
+    
+    init?(data: Data)
+    {
+        do
+        {
+            self = try JSONDecoder().decode(Building.self, from: data)
+        }
+        catch let error
+        {
+            print("Failed parsing JSON: \(error)")
+            return nil
+        }
+    }
+    
+    func encode(with aCoder: NSCoder)
+    {
+
     }
 }
-
-struct Location {
-    var Address: TranslateableString
-    var City: String
-    var Province: String
-    var PostalCode: String
-    var Longitude: Double
-    var Latitude: Double
-    
-    init(building: Dictionary<String, Any>) {
-        self.Address = TranslateableString(
-            EN: building.findByKey(Key: "addressEN") as! String,
-            FR: building.findByKey(Key: "addressFR") as! String
-        )
-        self.City = building.findByKey(Key: "city") as! String
-        self.Province = building.findByKey(Key: "province") as! String
-        self.PostalCode = building.findByKey(Key: "postalCode") as! String
-        self.Longitude = building.findByKey(Key: "longitude") as! Double
-        self.Latitude = building.findByKey(Key: "latitude") as! Double
-    }
-}
-
-struct BuildingImage {
-    let Image: String
-    let Description: TranslateableString
-    
-    init (building: Dictionary<String, Any>) {
-        self.Image = building.findByKey(Key: "image") as! String
-        self.Description = TranslateableString(
-            EN: building.findByKey(Key: "imageDescriptionEN") as! String,
-            FR: building.findByKey(Key: "imageDescriptionFR") as! String
-        )
-    }
-}
-
-struct BuildingCategory {
-    let ID: Int
-    let Name: TranslateableString
-    
-    init (building: Dictionary<String, Any>) {
-        self.ID = building.findByKey(Key: "buildingId") as! Int
-        self.Name = TranslateableString(
-            EN: building.findByKey(Key: "nameEN") as! String,
-            FR: building.findByKey(Key: "nameFR") as! String
-        )
-    }
-}
-
-class Building {
-    var ID: String?
-    var buildingID: Int?
-    var name: TranslateableString?
-    var category: BuildingCategory?
-    var location: Location?
-    var image: BuildingImage?
-    
-    public init() {
-        
-    }
-    
-    // Convenience init for a single building
-    convenience init(building: Dictionary<String, Any>) {
-        self.init()
-        self.location = Location(building: building)
-        self.name = TranslateableString(building: building)
-        self.category = BuildingCategory(building: building)
-        self.image = BuildingImage(building: building)
-        self.buildingID = building.findByKey(Key: "buildingId") as? Int
-        self.ID = building.findByKey(Key: "_id") as? String
-    }
-}
-
-/*
-"__v": 0,
-"buildingId": 166,
-"updatedAt": "2017-10-19T18:43:03.632Z",
-"createdAt": "2017-10-19T18:43:03.632Z",
-"nameEN": "hurdleg",
-"_id": "59e8f2372d5e3e0f386247c7",
-"categoryFR": "Autres",
-"categoryId": 10,
-"longitude": -75.75615920000001,
-"latitude": 45.3497531,
-"postalCode": "K2G 1V8",
-"province": "ON",
-"city": "Ottawa",
-"imageDescriptionFR": "Home of the Mobile Application Design & Development (MAD&D) program at Algonquin College in Ottawa, Ontario, Canada",
-"imageDescriptionEN": "Home of the Mobile Application Design & Development (MAD&D) program at Algonquin College in Ottawa, Ontario, Canada",
-"image": "images/noimagefound.jpg",
-"sundayClose": "2017-06-04 16:00",
-"sundayStart": "2017-06-04 10:00",
-"saturdayClose": "2017-06-03 16:00",
-"saturdayStart": "2017-06-03 10:00",
-"categoryEN": "Other",
-"addressFR": "1385, avenue Woodroffe",
-"addressEN": "1385 Woodroffe Ave.",
-"isNewBuilding": false,
-"nameFR": "MAD&D Lab, Algnoquin College (Woodroffe Campus)"
-*/
