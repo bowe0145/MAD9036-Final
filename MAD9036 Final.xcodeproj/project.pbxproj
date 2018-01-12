@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		94011CAE1FE2163A003CE0E4 /* BuildingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94011CAD1FE2163A003CE0E4 /* BuildingViewController.swift */; };
 		946D5AFA1FDDA1B100757668 /* DoorsOpen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946D5AF91FDDA1B100757668 /* DoorsOpen.swift */; };
 		946D5AFC1FDDF36200757668 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946D5AFB1FDDF36200757668 /* Protocol.swift */; };
 		94EE228A1FDD97D800886676 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EE22891FDD97D800886676 /* AppDelegate.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		94011CAD1FE2163A003CE0E4 /* BuildingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildingViewController.swift; sourceTree = "<group>"; };
 		946D5AF91FDDA1B100757668 /* DoorsOpen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoorsOpen.swift; sourceTree = "<group>"; };
 		946D5AFB1FDDF36200757668 /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
 		94EE22861FDD97D800886676 /* MAD9036 Final.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MAD9036 Final.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,6 +74,7 @@
 				94EE229D1FDD9D3200886676 /* BuildingTableViewController.swift */,
 				946D5AF91FDDA1B100757668 /* DoorsOpen.swift */,
 				946D5AFB1FDDF36200757668 /* Protocol.swift */,
+				94011CAD1FE2163A003CE0E4 /* BuildingViewController.swift */,
 			);
 			path = "MAD9036 Final";
 			sourceTree = "<group>";
@@ -154,6 +157,7 @@
 				94EE228A1FDD97D800886676 /* AppDelegate.swift in Sources */,
 				94EE229E1FDD9D3200886676 /* BuildingTableViewController.swift in Sources */,
 				946D5AFC1FDDF36200757668 /* Protocol.swift in Sources */,
+				94011CAE1FE2163A003CE0E4 /* BuildingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

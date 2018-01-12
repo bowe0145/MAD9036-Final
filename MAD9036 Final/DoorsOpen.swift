@@ -168,8 +168,6 @@ class DoorsOpen {
                 
                 
             }
-            print (status)
-            print (responseData)
 
             
             //Content-Type: application/json; charset=utf-8
@@ -189,16 +187,15 @@ class DoorsOpen {
         
         // Make the specific task from the session by passing in your request
         let task = session.dataTask(with: request) { (responseData, response, responseError) in
+            guard responseError == nil else {
+                return
+            }
+            
+            guard let jsonData = responseData else {
+                _ = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Data was not retrieved from request"]) as Error
+                return
+            }
             DispatchQueue.main.async {
-                guard responseError == nil else {
-                    return
-                }
-                
-                guard let jsonData = responseData else {
-                    _ = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Data was not retrieved from request"]) as Error
-                    return
-                }
-                
                 completion?(jsonData, extra)
             }
         }

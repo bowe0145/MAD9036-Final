@@ -15,12 +15,17 @@ class BuildingTableViewController: UITableViewController {
     }
     
     var API: DoorsOpen = DoorsOpen()
-    var openDoorsUrl: String = "https://doors-open-ottawa.mybluemix.net/"
     var Buildings: [Building]? = []
     var delegate: sendBuildings?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        /*API.getDataSize(urlString: "images/include/doors/Abbotsford House.jpg") { (Int) in
+            print("")
+        }
+        API.getDataSize(urlString: "count") { (Int) in
+            print("")
+        }*/
         API.prepareRequest(URLString: "buildings", extra: nil, completion: loadBuildings)
     }
 
@@ -32,8 +37,9 @@ class BuildingTableViewController: UITableViewController {
             self.Buildings = tempBuildings
             
             // Get the images
-            for building in tempBuildings {
+            for var building in tempBuildings {
                 API.prepareRequest( URLString: building.image, extra: building.id, completion: loadBuildingImage)
+                //building.loadImage(completion: gotImage)
             }
             
             tableView.reloadData()
@@ -41,6 +47,10 @@ class BuildingTableViewController: UITableViewController {
         catch {
             print("Error loading buildings")
         }
+    }
+    
+    func gotImage() {
+        
     }
     
     func loadBuildingImage (image: Data, id: Any) -> Void {
@@ -51,6 +61,7 @@ class BuildingTableViewController: UITableViewController {
         for (index, value) in (Buildings?.enumerated())! {
             if id as! String == value.id {
                 Buildings?[index].imageData = image
+                Buildings?[index].saveImage()
             }
         }
         tableView.reloadData()
@@ -100,14 +111,24 @@ class BuildingTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "showBuilding" {
+            let nextVC = segue.destination as? BuildingViewController
+            
+            // Get the cell and index path only if they exist
+            guard let cell = sender as? UITableViewCell,
+                let indexPath = tableView.indexPath(for: cell) else {
+                    return
+            }
+            
+            nextVC?.currentBuilding = Buildings?[indexPath.row]
+        }
     }
-    */
 
 }

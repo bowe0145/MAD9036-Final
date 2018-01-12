@@ -97,8 +97,26 @@ struct Building: Codable
         }
     }
     
+    func saveImage() {
+        let ID = "Building-" + String(self.buildingID)
+        let defaults = UserDefaults.standard
+        
+        defaults.set(self.imageData, forKey: ID)
+    }
+    
+    mutating func loadImage(completion: (() -> Void)) {
+        let defaults = UserDefaults.standard
+        let data = defaults.data(forKey: "Building-" + String(self.buildingID))
+        self.imageData = data
+        completion()
+    }
+    
     func encode(with aCoder: NSCoder)
     {
-
+        do {
+            try JSONEncoder().encode(self)
+        } catch let error {
+            print ("Failed to encode JSON: \(error)")
+        }
     }
 }
